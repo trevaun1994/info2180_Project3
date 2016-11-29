@@ -1,0 +1,37 @@
+h1{
+    text-align: center; 
+    font-size: 70px;
+    font-family: 'Open Sans', Georgia, Serif;
+    font-weight: bold;
+}
+
+form{
+    text-align: center;
+    margin-top: 10%;
+}
+
+div{
+    text-align: center;
+    font-size:25px;
+    font-family: 'Open Sans' , Georgia, Serif;
+}
+
+div input{
+    width: 20%;
+    height: 20px;
+    font-family: 'Open Sans' , Georgia, Serif;
+}
+
+
+#login{
+    width: 7em;
+    height: 2em;
+    font-weight: bold;
+}
+
+body{
+    background-image: url("images/bgi.jpg");
+    background-size:cover; 
+    background-repeat: no-repeat;
+    ;
+}

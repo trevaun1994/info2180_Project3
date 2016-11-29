@@ -1,8 +1,25 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Cheapo Mail Login</title>
+    <link rel="stylesheet" type="text/css" href="login.css"> <!--login.css-->
+    <script type="text/javascript" src="login.js"></script> <!--login.js-->
+</head>
 <body>
-
-<h1>CheapoMessenger</h1>
+    <form id="logininfo" name="loginform"> 
+	<h1>Cheapo Mail</h1>
+    <div id="input">
+        <label>Username:</label><br />
+		<input type="text" name="username" class="textfield"> <br />
+        <label>Password:</label><br /> 
+		<input type="password" name="password" class="textfield"> <br />
+        <input type= "button" id="login" value= "Login" onclick= "verify();">  </input>
+    </div>
+ 
+    </form>
+    <div id= "login_status"></div>
+</body>
+</html>
 
 </body>
 </html>
