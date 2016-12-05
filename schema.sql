@@ -41,3 +41,12 @@ CREATE TABLE IF NOT EXISTS `Message_read` (
 
 INSERT INTO `User`(`firstname`,`lastname`,`password`,`username`,`admin`) VALUES  /* Addes a default admin */
   ("admin","admin","admin","admin",TRUE);
+  
+INSERT INTO `User`(`firstname`,`lastname`,`password`,`username`,`admin`) VALUES  /* Addes a default user */
+  ("Trevaun","Miller","Password1","trevaun1994",FALSE);
+  
+INSERT INTO `User`(`firstname`,`lastname`,`password`,`username`,`admin`) VALUES  /* Addes a default user */
+  ("Akil","Nassor","Password1","akil1",FALSE);
+  
+INSERT INTO `User`(`firstname`,`lastname`,`password`,`username`,`admin`) VALUES  /* Addes a default user */
+  ("Romario","Moncrieffe","Password1","romrooney",FALSE);

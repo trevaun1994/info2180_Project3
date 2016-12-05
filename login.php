@@ -1,29 +1,35 @@
 <?php
-	$username = $_REQUEST['username'];
-	$password = $_REQUEST['password'];
+	$username = $_POST["username"];   
+	$password = $_POST["password"];
 	
+	/* CONNECT TO DATABASE */
     $host = getenv('IP');
-	$username = getenv('C9_USER');
-	$password = '';
+	$un = getenv('C9_USER');
+	$pd = '';
 	$dbname = 'CheapoMail';
-	$con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+	$CheapoMail = new PDO("mysql:host=$host;dbname=$dbname", $un, $pd);
 
-	if (!$con) {
+	if (!$CheapoMail) {
 		echo "Connection failed";
 		return false;
 	}
 	
-	$stmt = $con->query("SELECT * FROM User WHERE username = '$username' and password = '$password';");
-	$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    if ($stmt->fetchAll(PDO::FETCH_ASSOC)){
-    	// sends something to javascript if it fails
-    	echo "fail";
-    }else{
-    	// sends something to javascript if it succeeds
-    	//session_start();
-    	//$_SESSION['username']=$username;
-    	setcookie('username',$username,time()+2000);
-    	echo "pass";
-    }
+	/* PERFORM QUERY */
+	
+	$query = $CheapoMail->prepare("SELECT * FROM User WHERE username = ? AND password = ?");
+	$query->execute([$username, $password]);
+	$userfound = $query->fetch();
+	
+	if($userfound)
+	{
+		echo "pass";
+		session_start();
+		$_SESSION['currentUser'] = $username;
+	} 
+	else
+	{
+		echo "fail";
+	}
+	
+				 /*   THIS CODE WORKS DO NOT MODIFY */
 ?>

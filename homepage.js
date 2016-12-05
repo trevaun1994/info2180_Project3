@@ -6,6 +6,13 @@ window.onload=function(){
 	document.getElementById("logout").onclick = logout;
 }
 
+/*function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+   } */
 
 function compose_message(){
 	console.log("The on click works");
@@ -81,7 +88,7 @@ function view_users(){
              
         }
     };
-    xmlHttp.open("GET","view_users.php",true);
+    xmlHttp.open("GET","view_user.php",true);
     xmlHttp.send();   
 }
 
@@ -92,7 +99,7 @@ function logout(){
         if(xmlHttp.readyState==4 && xmlHttp.status==200){
             var responseMessage = xmlHttp.responseText;
             alert(responseMessage);
-             window.location.href="login.html";
+             window.location.href="index.html";
         }
     };
     xmlHttp.open("GET","logout.php",true);
