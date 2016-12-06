@@ -6,6 +6,8 @@
 	</tr>
 
 <?php
+	session_start();
+	
 		/* CONNECT TO DATABASE */
     $host = getenv('IP');
 	$un = getenv('C9_USER');
@@ -18,33 +20,36 @@
 		return false;
 	}
 	
-	if(isset($_COOKIE['username'])){
-		$current_user = $_COOKIE['username'];
-		$useridquery =  "SELECT id FROM user WHERE username = '$current_user'";
-		$userres = mysqli_query($con,$useridquery);
-		while($row=mysqli_fetch_array($userres)){
-			$userid= $row['id'];
+	if(isset($_SESSION['currentUser'])){
+		$current_user = $_SESSION['currentUser'];   // GET THE CURRENT USER'S ID
+		$useridquery = $CheapoMail->prepare("SELECT id FROM User WHERE username = ?");
+		$useridquery->execute([$current_user]);
+		while ($row = $useridquery->fetch())
+    	{
+        	$current_userID = $row['id'];
+    	}
+	
 		
-		}
-		
-		$messagestring="SELECT * from message where recipient_ids = ".$userid.";";
-		$messagequery = mysqli_query($con,$messagestring);
-		while($row2=mysqli_fetch_array($messagequery)){
-		    $senderid= $row2['user_id'];
-		    
-		    $senderstring =  "SELECT username FROM user WHERE id = '$senderid'";
-		    $senderquery = mysqli_query($con,$senderstring);
-		    while($row3=mysqli_fetch_array($senderquery)){
-		        $sender_username= $row3['username'];
-		    }
-			echo '<tr onclick="read();">';
-			echo "<td>".$sender_username."</td>";
-			echo "<td>".$row2['subject']."</td>";
-			echo "<td>".$row2['body']."</td>";
+		$messagePrep = $CheapoMail->prepare("SELECT * from Message where recipient_ids = ?;"); //GET THE USER'S MESSAGES
+		$messagePrep->execute([$current_userID]);
+		while ($eachmessage = $messagePrep->fetch())
+   		{	
+   			/*if ($eachmessage['message'] == NULL) {
+   				echo "no message";
+   			} */
+    		$senderid= $eachmessage['user_id'];
+    		$senderName =  $CheapoMail->prepare("SELECT firstname FROM User WHERE id = ?;");
+       		$senderName->execute([$senderid]);
+       		$senderName = $senderName->fetch();
+       	
+    		echo '<tr onclick="read();">';
+			echo "<td>".$senderName."</td>";
+			echo "<td>".$eachmessage['subject']."</td>";
+			echo "<td>".$eachmessage['body']."</td>";
 			echo "</tr>";
 		}
 	}else{
-	    echo "Not logged in";
-	}
+	    echo "Not Logged In";
+	} 
 ?>
 </table>

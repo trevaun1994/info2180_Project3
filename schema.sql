@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `Message_read` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 INSERT INTO `User`(`firstname`,`lastname`,`password`,`username`,`admin`) VALUES  /* Addes a default admin */
-  ("admin","admin","admin","admin",TRUE);
+  ("admin","admin","Password1","admin",TRUE);
   
 INSERT INTO `User`(`firstname`,`lastname`,`password`,`username`,`admin`) VALUES  /* Addes a default user */
   ("Trevaun","Miller","Password1","trevaun1994",FALSE);
@@ -50,3 +50,18 @@ INSERT INTO `User`(`firstname`,`lastname`,`password`,`username`,`admin`) VALUES 
   
 INSERT INTO `User`(`firstname`,`lastname`,`password`,`username`,`admin`) VALUES  /* Addes a default user */
   ("Romario","Moncrieffe","Password1","romrooney",FALSE);
+  
+INSERT INTO `Message`(`body`,`subject`,`user_id`,`recipient_ids`,`date_sent`) VALUES  
+("Romario likes to play football and attend UWI carnival","Moncrieffe's Hobbies",4,2,'1995-04-32');
+
+INSERT INTO `Message`(`body`,`subject`,`user_id`,`recipient_ids`,`date_sent`) VALUES  
+("Romario likes to play football and attend UWI carnival","Moncrieffe's Hobbies",4,3,'2343-04-32');
+
+INSERT INTO `Message`(`body`,`subject`,`user_id`,`recipient_ids`,`date_sent`) VALUES  
+("Trevaun likes to play GTA7 and attend UWI carnival ... every year","Trev's Hobbies",2,4,'2004-04-32');
+
+INSERT INTO `Message`(`body`,`subject`,`user_id`,`recipient_ids`,`date_sent`) VALUES  
+("Your are invited to my wedding ceremony this Saturday","Moncrieffe's Wedding",4,2,'2106-04-32');
+
+INSERT INTO `Message`(`body`,`subject`,`user_id`,`recipient_ids`,`date_sent`) VALUES  
+("Ok so the first when never worked out so this is the new wedding date (December 75th, 2102)","Moncrieffe's Second Wedding",4,3,'2016-04-32');

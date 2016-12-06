@@ -1,5 +1,5 @@
 <?php 
-    //session_start(); 
+    session_start(); 
 
 /* CONNECT TO DATABASE */
     $host = getenv('IP');
@@ -20,29 +20,5 @@
         echo "<p>".$row['username']."</p>";
     }
     
-   
-
-   /* if(isset($_COOKIE['username'])){ 
-	
-		$userlistq =  $CheapoMail-> prepare ("SELECT * FROM user;");
-		$userlistres = mysqli_query($con,$userlistq);
-		while($row=mysqli_fetch_array($userlistres)){
-			$firstname= $row['first_name'];
-			$lastname= $row['last_name'];
-			$username= $row['username'];
-			
-			echo "<tr>";
-            echo "<td>".$firstname."</td>";
-            echo "<td>".$lastname."</td>";
-            echo "<td>".$username."</td>";
-            echo "</tr>";
-		
-		}
-		
-		
-	}
-	else
-	{
-	    echo"Not logged in";
-	}   */
+    echo "<p> Current User = ".$_SESSION['currentUser']."</p>";
 ?>
