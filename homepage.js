@@ -15,7 +15,6 @@ window.onload=function(){
    } */
 
 function compose_message(){
-	console.log("The on click works");
 	var compose_panel=[
 		'<div id ="compose_window">',
 		'<div id="new_message">',
@@ -43,9 +42,19 @@ function insert_data(){
     var rec = document.getElementById("recipient").value;
     var sub = document.getElementById("subject").value;
     var bod = document.getElementById("message_content").value;
-    var req_mes = "recipient="+rec+"&subject="+sub+"&body="+bod;
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST","message.php",true);
+    
+    	$.post("newmessage.php", {recp:rec, sub:sub, body:bod}, function(responseMessage){
+	    if (responseMessage!="Sent") {
+	        alert ("Message Failed");
+        }else if(responseMessage=="Sent"){
+            alert ("Message Sent");
+            window.location.href="homepage.html";
+        }
+	    });
+    
+    
+    /*var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST","newmessage.php",true);
     xmlHttp.onreadystatechange = function(){
         if(xmlHttp.readyState==4 && xmlHttp.status==200){
             var responseMessage = xmlHttp.responseText;
@@ -59,9 +68,8 @@ function insert_data(){
     xmlHttp.setRequestHeader("Connection", "close");
     
     
-    xmlHttp.send(req_mes);
-    //var responseMessage = xmlHttp.responseText;
-    //alert(responseMessage);
+    xmlHttp.send(req_mes); */
+  
 }
 
 function view_messages(){

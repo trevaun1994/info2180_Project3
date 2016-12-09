@@ -1,41 +1,62 @@
 <?php
 session_start();
 //include 'login.php';
-$recepient = $_POST["recipient"];
-$subject = $_POST["subject"];
+$recepient = $_POST["recp"];
+$subject = $_POST["sub"];
 $body = $_POST["body"];
-$con=mysqli_connect("localhost","", "");
-if (!$con) {
-	echo "Connection failed";
-	return false;
+
+	
+		/* CONNECT TO DATABASE */
+    $host = getenv('IP');
+	$un = getenv('C9_USER');
+	$pd = '';
+	$dbname = 'CheapoMail';
+	$CheapoMail = new PDO("mysql:host=$host;dbname=$dbname", $un, $pd);
+
+	if (!$CheapoMail) {
+		echo "Connection failed";
+		return false;
+	}
+
+$current_user = $_SESSION['currentUser'];   // GET THE CURRENT USER'S ID
+$useridquery = $CheapoMail->prepare("SELECT id FROM User WHERE username = ?");
+$useridquery->execute([$current_user]);
+while ($row = $useridquery->fetch())
+{
+    $current_userID = $row['id'];
 }
-if(isset($_SESSION['username'])){
-    $useridquery =  "SELECT id FROM User WHERE name = '$_SESSION[username]'; ";
-    $recidquery =  "SELECT id FROM User WHERE name = '$recipient'; ";
-    $userres = mysqli_query($con,$useridquery);
-    $recres = mysqli_query($con,$recidquery);
-    if(mysql_fetch_array($recres)==0){
+
+$recpt = $_SESSION['currentUser'];   
+$ridquery = $CheapoMail->prepare("SELECT id FROM User WHERE username = ?");
+$ridquery->execute([$recp]);
+while ($row = $ridquery->fetch())
+{
+	$rID = $row['id'];
+	if(mysql_fetch_array($rID)==0){
         echo "Invalid Recipient Username";
         
     }
     else
     {
     
-        while($row=mysql_fetch_array($userres)){
-            while($row2=mysql_fetch_array($recres)){
-                $sql = "INSERT INTO message (body,subject,user_id,recipient_ids) VALUES ($body,$subject,'$row[id]','$row2[id]');";
-            
-                if (!mysqli_query($con,$sql))
-  				    {
-  					    die('Error: ' . mysqli_error($con));
-  				    }
-  				    else
-  				    {
-				        echo "1 record added";
-  				    }
-            }
-        }
+        
+        $sql = "INSERT INTO message (body,subject,user_id,recipient_ids) VALUES ($body,$subject,'$current_userID','$rID');";
+
+        if (!mysqli_query($con,$sql))
+	    {
+		    die('Error: ' . mysqli_error($con));
+	    }
+	    else{
+			echo "Message Sent";
+  		}
+        
     }
+	 
+}
+
+    
+    
+    
 else
 {
     echo "Session not set";
