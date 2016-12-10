@@ -5,6 +5,8 @@ window.onload=function(){
 	document.getElementById("logout").onclick = logout;
 	document.getElementById("Add Users").onclick = adduser;
 	
+	view_messages();
+	
 }
 
 /*function toggle_visibility(id) {
