@@ -1,9 +1,10 @@
-//Javascript file//
 window.onload=function(){
 	document.getElementById("Compose").onclick= compose_message;
 	document.getElementById("Inbox").onclick= view_messages;
 	document.getElementById("Other Users").onclick= view_users;
 	document.getElementById("logout").onclick = logout;
+	document.getElementById("Add Users").onclick = adduser;
+	
 }
 
 /*function toggle_visibility(id) {
@@ -13,6 +14,43 @@ window.onload=function(){
        else
           e.style.display = 'block';
    } */
+   
+function adduser(){
+    
+    $.post("admin.php", {}, function(admin){
+	   if(admin=="1"){
+        var compose_panel=[
+		'<div id ="compose_window">',
+		'<div id="Add User">',
+		'<div id="header"><strong> Add User </strong></div>',
+		'</div>',
+		'<form>',
+		'<fieldset>',
+		'<strong>First Name:</strong><br> <input type="text" id ="firstname" name="firstname" class="textfield"> <br>',
+		'<strong>Last Name:</strong><br> <input type="text" id="lastname" name="lastname" class="textfield"> <br><br>',
+		'<strong>Username</strong><br> <input type="text"  id = "username" name="username"> <br>',
+		'<strong>Password</strong><br> <input type ="text"  id = "password" name="password"> <br>',
+		'<button id="Create"> <strong> Create </strong> </button>',
+		'</fieldset>',
+		'</form>',
+		'</div>',
+		'<div id="Response"></div>',
+		
+	    ].join('');
+	    document.getElementById("pagecontent").innerHTML= compose_panel;
+	    document.getElementById("Send").onclick= insert_user;
+	
+        }else{  document.getElementById("pagecontent").innerHTML= "<strong> You are not an admin </strong>"; 
+            
+        } 
+        
+    });
+        
+} 
+
+function insert_user(){
+    var time = "ish";
+}
 
 function compose_message(){
 	var compose_panel=[
@@ -39,37 +77,22 @@ function compose_message(){
 
 function insert_data(){
     
-    var rec = document.getElementById("recipient").value;
-    var sub = document.getElementById("subject").value;
-    var bod = document.getElementById("message_content").value;
+    var rec = $("#recipient").val();
+    var sub = $("#subject").val();
+    var bod = $("#message_content").val();
     
-    	$.post("newmessage.php", {recp:rec, sub:sub, body:bod}, function(responseMessage){
+    	$.post("newmessage.php", {rec:rec, sub:sub, bod:bod}, function(responseMessage){
 	    if (responseMessage!="Sent") {
 	        alert ("Message Failed");
         }else if(responseMessage=="Sent"){
-            alert ("Message Sent");
-            window.location.href="homepage.html";
-        }
+            console.log (rec);
+            console.log(sub);
+            console.log(bod);
+            window.alert ("Message Sent");
+            //window.location.href="homepage.html";    
+            }
 	    });
     
-    
-    /*var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST","newmessage.php",true);
-    xmlHttp.onreadystatechange = function(){
-        if(xmlHttp.readyState==4 && xmlHttp.status==200){
-            var responseMessage = xmlHttp.responseText;
-            //document.getElementById("Response").innerHTML= responseMessage;
-            alert(responseMessage);
-            view_messages();
-        }
-    };
-    xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlHttp.setRequestHeader("Content-length", req_mes.length);
-    xmlHttp.setRequestHeader("Connection", "close");
-    
-    
-    xmlHttp.send(req_mes); */
-  
 }
 
 function view_messages(){
@@ -101,7 +124,7 @@ function view_users(){
 }
 
 function logout(){
-    console.log("logging out");
+    //console.log("logging out");
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function(){
         if(xmlHttp.readyState==4 && xmlHttp.status==200){

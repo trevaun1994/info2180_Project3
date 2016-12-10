@@ -1,22 +1,21 @@
 <?php
 session_start();
-//include 'login.php';
-$recepient = $_POST["recp"];
+$recepient = $_POST["rec"];
 $subject = $_POST["sub"];
-$body = $_POST["body"];
+$body = $_POST["bod"];
 
-	
-		/* CONNECT TO DATABASE */
-    $host = getenv('IP');
-	$un = getenv('C9_USER');
-	$pd = '';
-	$dbname = 'CheapoMail';
-	$CheapoMail = new PDO("mysql:host=$host;dbname=$dbname", $un, $pd);
 
-	if (!$CheapoMail) {
-		echo "Connection failed";
-		return false;
-	}
+/* CONNECT TO DATABASE */
+$host = getenv('IP');
+$un = getenv('C9_USER');
+$pd = '';
+$dbname = 'CheapoMail';
+$CheapoMail = new PDO("mysql:host=$host;dbname=$dbname", $un, $pd);
+
+if (!$CheapoMail) {
+	echo "Connection failed";
+	return false;
+}
 
 $current_user = $_SESSION['currentUser'];   // GET THE CURRENT USER'S ID
 $useridquery = $CheapoMail->prepare("SELECT id FROM User WHERE username = ?");
@@ -26,42 +25,20 @@ while ($row = $useridquery->fetch())
     $current_userID = $row['id'];
 }
 
-$recpt = $_SESSION['currentUser'];   
 $ridquery = $CheapoMail->prepare("SELECT id FROM User WHERE username = ?");
-$ridquery->execute([$recp]);
+$ridquery->execute([$recepient]);
 while ($row = $ridquery->fetch())
 {
 	$rID = $row['id'];
-	if(mysql_fetch_array($rID)==0){
-        echo "Invalid Recipient Username";
-        
+	if($rID==NULL){
+        echo "Message Failed";
     }
     else
     {
-    
-        
-        $sql = "INSERT INTO message (body,subject,user_id,recipient_ids) VALUES ($body,$subject,'$current_userID','$rID');";
-
-        if (!mysqli_query($con,$sql))
-	    {
-		    die('Error: ' . mysqli_error($con));
-	    }
-	    else{
-			echo "Message Sent";
-  		}
-        
+        $ridquery = $CheapoMail->prepare("INSERT INTO Message (body,subject,user_id,recipient_ids) VALUES (?,?,?,?);");
+        $ridquery->execute([$body,$subject,$current_userID,$rID]);
+        echo "Sent";
     }
-	 
-}
-
-    
-    
-    
-else
-{
-    echo "Session not set";
-}
-
 }
   
 ?>
